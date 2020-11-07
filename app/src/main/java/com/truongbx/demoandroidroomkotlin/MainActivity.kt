@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity(),
         launch {
             val bookList = bookDatabase.getDatabase(this@MainActivity).userDAO()
                 .getAllBook()
-            binding.rcBook.adapter = BookAdapter(bookList as ArrayList<Book>, this@MainActivity, this@MainActivity)
+            binding.rcBook.adapter =
+                BookAdapter(bookList as ArrayList<Book>, this@MainActivity, this@MainActivity)
             binding.rcBook.adapter?.notifyDataSetChanged()
             binding.rcBook.scrollToPosition(bookList.size - 1)
             toast("${bookList.size}")
@@ -95,8 +96,10 @@ class MainActivity : AppCompatActivity(),
             return
         }
         launch {
-            book.name = name
-            book.category = category
+            book.let {
+                it.name = name
+                it.category = category
+            }
             bookDatabase.getDatabase(this@MainActivity).userDAO().updateBook(book)
             this@MainActivity.toast("Update Book Successful")
             clearForm()
